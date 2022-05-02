@@ -23,8 +23,8 @@ public class SecurityConfiguration {
                 .antMatcher("/**")
                 .csrf().disable()
                 .authorizeRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.GET, "/api/articles").permitAll()
-                        .antMatchers(HttpMethod.GET, "/api/articles/*").permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/questions").permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/questions/*").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .antMatchers(HttpMethod.GET, "/api/users/{username}").permitAll()
                         .anyRequest()
@@ -55,7 +55,7 @@ public class SecurityConfiguration {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return (UserDetails) userRepository.findByUsername(username).orElse(null);
+                return userRepository.findByUsername(username).orElse(null);
             }
         };
     }

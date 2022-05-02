@@ -3,7 +3,8 @@ package com.zenika.academy.barbajavas.backFinalProject.domain.model.questions;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.User;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "questions")
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 public class Question {
     @Id
     private String id;
-    private LocalTime answer_date;
+    private ZonedDateTime question_date;
     private String title;
     private String content;
     private boolean flag;
@@ -21,15 +22,16 @@ public class Question {
     private User user;
 
 
-    public Question(String id, LocalTime answer_date, String title, String content, boolean flag,User user) {
+    public Question(String id, ZonedDateTime question_date, String title, String content, boolean flag,User user) {
         this.id = id;
-        this.answer_date = answer_date;
+        this.question_date = question_date;
         this.title = title;
         this.content = content;
         this.flag = flag;
         this.user = user;
     }
     protected Question(){}
+
 
     public String getId() {
         return id;
@@ -39,12 +41,12 @@ public class Question {
         this.id = id;
     }
 
-    public LocalTime getAnswer_date() {
-        return answer_date;
+    public ZonedDateTime getAnswer_date() {
+        return question_date;
     }
 
-    public void setAnswer_date(LocalTime answer_date) {
-        this.answer_date = answer_date;
+    public void setAnswer_date(LocalDate question_date) {
+        this.question_date = ZonedDateTime.from(question_date);
     }
 
     public String getTitle() {
@@ -84,7 +86,7 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id='" + id + '\'' +
-                ", answer_date=" + answer_date +
+                ", question_date=" + question_date +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", flag=" + flag +

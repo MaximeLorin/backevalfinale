@@ -10,7 +10,7 @@ create table if not exists users(
 
 create table if not exists questions(
     id char(36) primary key,
-    question_date date not null,
+    question_date timestamp not null,
     title text not null,
     content text not null,
     flag boolean,

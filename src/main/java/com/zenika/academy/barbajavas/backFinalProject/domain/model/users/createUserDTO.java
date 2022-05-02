@@ -1,4 +1,4 @@
 package com.zenika.academy.barbajavas.backFinalProject.domain.model.users;
 
-public record createUserDTO(String username,String password,String email) {
+public record createUserDTO(String email,String password,String username) {
 }
