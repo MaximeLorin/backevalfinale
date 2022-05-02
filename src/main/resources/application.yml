@@ -1,0 +1,18 @@
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: mysecretpassword
+
+  security:
+    user:
+      name: admin
+      password: admin
+logging:
+  level:
+    root: info
+    org.springframework.security: debug
+    org.springframework.data: debug
