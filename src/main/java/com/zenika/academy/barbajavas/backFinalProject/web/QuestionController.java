@@ -3,6 +3,7 @@ package com.zenika.academy.barbajavas.backFinalProject.web;
 import com.zenika.academy.barbajavas.backFinalProject.domain.application.QuestionService;
 import com.zenika.academy.barbajavas.backFinalProject.domain.application.WordCounter;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.CreateQuestionDTO;
+import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Language;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Question;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.QuestionTileToLongException;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.User;
@@ -12,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @RestController
 @RequestMapping("/api")
@@ -32,18 +32,34 @@ public class QuestionController {
     ResponseEntity<Question> createQuestion(@RequestBody CreateQuestionDTO questionDTO) throws QuestionTileToLongException, UserNotFoundException {
         int nbOfWords=wordCounter.countWord(questionDTO.title());
         int wordsToRm=nbOfWords-20;
-
+        boolean confirmLanguage=false;
         Optional<User> user = this.userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if (nbOfWords>20){
+        for (Language lang: Language.values()) {
+            if(Objects.equals(questionDTO.language(), lang.toString())){
+                confirmLanguage=true;
+            }
+        }
+
+        if (nbOfWords>20 ){
             throw new QuestionTileToLongException("Votre titre fait "+nbOfWords+" mots, vous avez "+wordsToRm+" mots en trop.");
         }
-        if(user.isPresent()){
+        if(user.isPresent() && confirmLanguage){
 
-            Question question=questionService.newQuestion(questionDTO.title(),questionDTO.content(),user.get());
+
+            Question question=questionService.newQuestion(questionDTO.title(),questionDTO.content(), questionDTO.language(), user.get());
             return ResponseEntity.status(HttpStatus.CREATED).body(question);
         }else {
             throw new UserNotFoundException("L'utilisateur n'existe pas !");
         }
+    }
+
+    @GetMapping("/questions")
+    List<Question> getEveryQuestions(){
+        return questionService.getAllQuestionsOrdered();
+    }
+    @GetMapping("/questions/search")
+    List<Question> getByTitlePart(@RequestParam("title") String titlePart){
+        return questionService.getQuestionsByPart(titlePart);
     }
 }

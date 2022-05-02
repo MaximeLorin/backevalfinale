@@ -1,4 +1,9 @@
 package com.zenika.academy.barbajavas.backFinalProject.domain.model.questions;
 
-public record CreateQuestionDTO(String title, String content,String language) {
+public enum Language {
+    C,
+    Java,
+    JavaScript,
+    PHP,
+    Python;
 }

@@ -3,7 +3,7 @@ package com.zenika.academy.barbajavas.backFinalProject.domain.model.answers;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Question;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "answers")
@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class Answer {
     @Id
     private String id;
-    private LocalTime answer_date;
+    private ZonedDateTime answer_date;
     private String content;
     private boolean flag;
 
@@ -19,13 +19,15 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    public Answer(String id, LocalTime answer_date, String content, boolean flag, Question question) {
+    public Answer(String id, ZonedDateTime answer_date, String content, boolean flag, Question question) {
         this.id = id;
         this.answer_date = answer_date;
         this.content = content;
         this.flag = flag;
         this.question = question;
     }
+
+    protected Answer(){}
 
     public String getId() {
         return id;
@@ -35,11 +37,11 @@ public class Answer {
         this.id = id;
     }
 
-    public LocalTime getAnswer_date() {
+    public ZonedDateTime getAnswer_date() {
         return answer_date;
     }
 
-    public void setAnswer_date(LocalTime answer_date) {
+    public void setAnswer_date(ZonedDateTime answer_date) {
         this.answer_date = answer_date;
     }
 

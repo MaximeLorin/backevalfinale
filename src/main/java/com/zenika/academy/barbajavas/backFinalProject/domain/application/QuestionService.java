@@ -7,7 +7,10 @@ import com.zenika.academy.barbajavas.backFinalProject.domain.repositories.Questi
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 public class QuestionService {
@@ -17,16 +20,26 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public Question newQuestion( String title, String content, User user) throws QuestionTileToLongException {
+    public Question newQuestion( String title, String content, String language,User user) throws QuestionTileToLongException {
         boolean flag=false;
         String qMark=" ?";
         ZoneId zone =ZoneId.of("Europe/Paris");
         Instant instant = Instant.now();
         ZonedDateTime zdt=instant.atZone(zone);
 
-        Question question= new Question(UUID.randomUUID().toString(), zdt,title+qMark,content,flag,user);
+        Question question= new Question(UUID.randomUUID().toString(), zdt,title+qMark,content,flag,language,user);
 
         questionRepository.save(question);
         return question;
+    }
+
+    public  Optional<Question> findQuestionById(String id){
+        return questionRepository.findById(id);
+    }
+
+    public List<Question> getAllQuestionsOrdered(){return (List<Question>) questionRepository.findAndOrdersArticles();}
+
+    public List<Question> getQuestionsByPart(String titlePart){
+        return questionRepository.findByTitlePart(titlePart);
     }
 }

@@ -14,12 +14,13 @@ create table if not exists questions(
     title text not null,
     content text not null,
     flag boolean,
+    language text not null,
     user_id char(36) REFERENCES users(id)
 );
 
 create table if not exists answers(
     id char(36) primary key,
-    answer_date date not null,
+    answer_date timestamp not null,
     content text not null,
     flag boolean,
     question_id char(36) REFERENCES questions(id)

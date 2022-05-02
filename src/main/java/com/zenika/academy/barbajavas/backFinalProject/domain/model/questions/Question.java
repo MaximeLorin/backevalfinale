@@ -16,18 +16,20 @@ public class Question {
     private String title;
     private String content;
     private boolean flag;
+    private String language;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    public Question(String id, ZonedDateTime question_date, String title, String content, boolean flag,User user) {
+    public Question(String id, ZonedDateTime question_date, String title, String content, boolean flag,String language,User user) {
         this.id = id;
         this.question_date = question_date;
         this.title = title;
         this.content = content;
         this.flag = flag;
+        this.language=language;
         this.user = user;
     }
     protected Question(){}
@@ -92,5 +94,21 @@ public class Question {
                 ", flag=" + flag +
                 ", user=" + user +
                 '}';
+    }
+
+    public ZonedDateTime getQuestion_date() {
+        return question_date;
+    }
+
+    public void setQuestion_date(ZonedDateTime question_date) {
+        this.question_date = question_date;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
