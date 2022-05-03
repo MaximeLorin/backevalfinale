@@ -42,4 +42,25 @@ public class QuestionService {
     public List<Question> getQuestionsByPart(String titlePart){
         return questionRepository.findByTitlePart(titlePart);
     }
+
+    public List<Question>getByLanguage(String language){
+        return questionRepository.findByLanguageIs(language);
+    }
+
+
+    public List<Question> getByUserId(String user_id){
+        return questionRepository.findByUserId(user_id);
+    }
+
+    public List<Question>getWhereNoAnswer(){
+        return questionRepository.findWhereNoAnswer();
+    }
+
+    public Question flagQuestion(String id, boolean flag) throws Exception{
+        Question question = questionRepository.findById(id).orElseThrow(Exception::new);
+
+        question.setFlag(flag);
+        questionRepository.save(question);
+        return question;
+    }
 }

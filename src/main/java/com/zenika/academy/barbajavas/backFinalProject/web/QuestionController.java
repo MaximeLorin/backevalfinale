@@ -44,9 +44,8 @@ public class QuestionController {
         if (nbOfWords>20 ){
             throw new QuestionTileToLongException("Votre titre fait "+nbOfWords+" mots, vous avez "+wordsToRm+" mots en trop.");
         }
+
         if(user.isPresent() && confirmLanguage){
-
-
             Question question=questionService.newQuestion(questionDTO.title(),questionDTO.content(), questionDTO.language(), user.get());
             return ResponseEntity.status(HttpStatus.CREATED).body(question);
         }else {
@@ -58,8 +57,25 @@ public class QuestionController {
     List<Question> getEveryQuestions(){
         return questionService.getAllQuestionsOrdered();
     }
+
     @GetMapping("/questions/search")
     List<Question> getByTitlePart(@RequestParam("title") String titlePart){
         return questionService.getQuestionsByPart(titlePart);
+    }
+
+    @GetMapping("/questions/{language}")
+    List<Question> getQuestionsByLanguage(@PathVariable String language){
+        return questionService.getByLanguage(language);
+    }
+
+    @GetMapping("/questions/user")
+    List<Question> getQuestionsByUserId(@RequestParam("user_id") String user_id){
+        return questionService.getByUserId(user_id);
+    }
+
+    @GetMapping("/no-answer")
+    List<Question> getQuestionsWithoutAnswers(){
+        System.out.println("toto");
+        return questionService.getWhereNoAnswer();
     }
 }

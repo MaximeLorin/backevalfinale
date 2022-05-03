@@ -7,6 +7,7 @@ import com.zenika.academy.barbajavas.backFinalProject.domain.model.answers.Answe
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.answers.AnswerToLongException;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.answers.CreateAnswerDTO;
 
+import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.FlagQuestionDTO;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Question;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.UserNotFoundException;
 
@@ -45,4 +46,13 @@ public class AnswerController {
             throw new UserNotFoundException("L'utilisateur n'existe pas !");
         }
     }
+
+    @PatchMapping("questions/{iD}")
+    ResponseEntity<Question> changeFlag(@PathVariable String id, @RequestBody FlagQuestionDTO flagQuestionDTO){
+        try{
+            Question changedQuestion= questionService.flagQuestion(id,flagQuestionDTO.flag());
+            return ResponseEntity.status(HttpStatus.CREATED).body(changedQuestion);
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }}
 }

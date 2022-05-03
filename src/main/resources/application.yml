@@ -11,6 +11,8 @@ spring:
     user:
       name: admin
       password: admin
+  jpa:
+    show-sql: true
 logging:
   level:
     root: info
