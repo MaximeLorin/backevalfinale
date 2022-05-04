@@ -25,6 +25,7 @@ public class SecurityConfiguration {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(HttpMethod.GET, "/api/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/api/questions/*").permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/answers/*").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .antMatchers(HttpMethod.GET, "/api/users/{username}").permitAll()
                         .anyRequest()

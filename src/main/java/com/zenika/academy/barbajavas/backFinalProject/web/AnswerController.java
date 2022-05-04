@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,12 +48,18 @@ public class AnswerController {
         }
     }
 
-    @PatchMapping("questions/{iD}")
+    @PatchMapping("questions/{id}")
     ResponseEntity<Question> changeFlag(@PathVariable String id, @RequestBody FlagQuestionDTO flagQuestionDTO){
         try{
             Question changedQuestion= questionService.flagQuestion(id,flagQuestionDTO.flag());
             return ResponseEntity.status(HttpStatus.CREATED).body(changedQuestion);
         }catch (Exception e){
             return ResponseEntity.notFound().build();
-        }}
+        }
+    }
+
+    @GetMapping("/answers/{question_id}")
+    List<Answer> getAnswersByQuestion(@PathVariable String question_id){
+        return this.answerService.getAnswersByQid(question_id);
+    }
 }

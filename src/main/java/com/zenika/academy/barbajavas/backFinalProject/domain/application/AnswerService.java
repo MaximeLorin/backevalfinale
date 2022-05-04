@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,5 +33,9 @@ public class AnswerService {
 
         answerRepository.save(answer);
         return answer;
+    }
+
+    public List<Answer> getAnswersByQid(String id){
+        return this.answerRepository.getEveryAnswersByQid(id);
     }
 }

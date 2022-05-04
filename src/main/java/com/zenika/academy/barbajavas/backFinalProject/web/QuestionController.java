@@ -67,6 +67,11 @@ public class QuestionController {
     List<Question> getQuestionsByLanguage(@PathVariable String language){
         return questionService.getByLanguage(language);
     }
+    @GetMapping("/questions/")
+    Optional<Question>getQuestionById(@RequestParam("id") String id){
+        return questionService.findQuestionById(id);
+    }
+
 
     @GetMapping("/questions/user")
     List<Question> getQuestionsByUserId(@RequestParam("user_id") String user_id){
