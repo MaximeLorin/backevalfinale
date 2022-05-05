@@ -23,6 +23,7 @@ create table if not exists answers(
     answer_date timestamp not null,
     content text not null,
     flag boolean,
+    user_id char(36) REFERENCES users(id),
     question_id char(36) REFERENCES questions(id)
 );
 

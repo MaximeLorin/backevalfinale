@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface QuestionRepository extends CrudRepository<Question, String> {
-    @Query(nativeQuery = true,value = "SELECT * FROM questions ORDER BY question_date")
+    @Query(nativeQuery = true,value = "SELECT * FROM questions ORDER BY question_date DESC")
     List<Question> findAndOrdersArticles();
 
     @Query(nativeQuery = true, value = "SELECT * FROM questions a WHERE SIMILARITY(title,?1) > 0.2")

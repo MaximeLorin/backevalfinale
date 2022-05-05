@@ -1,6 +1,7 @@
 package com.zenika.academy.barbajavas.backFinalProject.domain.model.answers;
 
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Question;
+import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.User;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -19,12 +20,17 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    public Answer(String id, ZonedDateTime answer_date, String content, boolean flag, Question question) {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Answer(String id, ZonedDateTime answer_date, String content, boolean flag, Question question,User user) {
         this.id = id;
         this.answer_date = answer_date;
         this.content = content;
         this.flag = flag;
         this.question = question;
+        this.user = user;
     }
 
     protected Answer(){}
@@ -78,5 +84,13 @@ public class Answer {
                 ", flag=" + flag +
                 ", question=" + question +
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

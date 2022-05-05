@@ -3,6 +3,7 @@ package com.zenika.academy.barbajavas.backFinalProject.domain.application;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.answers.Answer;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.answers.AnswerToLongException;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Question;
+import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.User;
 import com.zenika.academy.barbajavas.backFinalProject.domain.repositories.AnswerRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,14 @@ public class AnswerService {
         this.answerRepository = answerRepository;
     }
 
-    public Answer newAnswer(String content, Question question) throws AnswerToLongException {
+    public Answer newAnswer(String content, Question question, User user) throws AnswerToLongException {
         boolean flag=false;
 
         ZoneId zone =ZoneId.of("Europe/Paris");
         Instant instant = Instant.now();
         ZonedDateTime zdt=instant.atZone(zone);
 
-        Answer answer= new Answer(UUID.randomUUID().toString(), zdt,content,flag,question);
+        Answer answer= new Answer(UUID.randomUUID().toString(), zdt,content,flag,question,user);
 
         answerRepository.save(answer);
         return answer;

@@ -9,12 +9,15 @@ import com.zenika.academy.barbajavas.backFinalProject.domain.model.answers.Creat
 
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.FlagQuestionDTO;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.questions.Question;
+import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.User;
 import com.zenika.academy.barbajavas.backFinalProject.domain.model.users.UserNotFoundException;
 
+import com.zenika.academy.barbajavas.backFinalProject.domain.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +32,8 @@ public class AnswerController {
     private AnswerService answerService;
     @Autowired
     private WordCounter wordCounter;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/answers/{question_id}")
     ResponseEntity<Answer> createAnswer(@RequestBody CreateAnswerDTO answerDTO,@PathVariable String question_id) throws AnswerToLongException, UserNotFoundException {
@@ -36,12 +41,13 @@ public class AnswerController {
         int wordsToRm=nbOfWords-20;
 
         Optional<Question> question = this.questionService.findQuestionById(question_id);
+        Optional<User> user = this.userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if (nbOfWords>20){
             throw new AnswerToLongException("Votre contenu fait "+nbOfWords+" mots, vous avez "+wordsToRm+" mots en trop.");
         }
-        if(question.isPresent()){
-            Answer answer=answerService.newAnswer(answerDTO.content(),question.get());
+        if(question.isPresent() && user.isPresent()){
+            Answer answer=answerService.newAnswer(answerDTO.content(),question.get(),user.get());
             return ResponseEntity.status(HttpStatus.CREATED).body(answer);
         }else {
             throw new UserNotFoundException("L'utilisateur n'existe pas !");
